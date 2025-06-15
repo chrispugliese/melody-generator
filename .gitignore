@@ -1,0 +1,9 @@
+# Ignore compiled class files
+out/
+*.class
+
+# Ignore JARs if you want to fetch externally
+lib/
+
+# macOS junk
+.DS_Store
