@@ -47,7 +47,11 @@ public class Main{
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String timestamp = sdf.format(new Date());
-        String filename = "assets/melody_ " + timestamp + ".mid";
+
+        String sanitizedKey = rootNote.replaceAll("[^A-G#]", "");
+        String sanitizedScale = scaleType.replaceAll("\\s+", "").replaceAll("[^a-zA-z]", "");
+
+        String filename = String.format("assets/melody_%s_%s_%s.mid", sanitizedKey, sanitizedScale, timestamp);
 
         Pattern pattern = new Pattern("V0 I[PIANO] " + melody);
         boolean success = MidiExporter.exportAsFormat1(pattern, filename);
