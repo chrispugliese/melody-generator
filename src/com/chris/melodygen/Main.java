@@ -39,23 +39,15 @@ public class Main{
         String melody = generator.generateMelody(rootNote, scaleType, length);
         System.out.println("Generated melody: " + melody);
         
-        System.out.println("Generated melody: [" + melody + "]");
 
         Player player = new Player();
         player.play(melody);
 
-        try{
-            Pattern pattern = new Pattern();
-            pattern.add("V0");
-            pattern.add("I[Piano]");
-            pattern.add(melody);
+        Pattern pattern = new Pattern("V0 I[PIANO] " + melody);
+        boolean success = MidiExporter.exportAsFormat1(pattern, "assets/generated.mid");
 
-            File midiFile = new File("assets/generated.mid");
-            MidiFileManager.savePatternToMidi(pattern, midiFile);
-            System.out.println("✅ MIDI exported to: " + midiFile.getAbsolutePath());
-        } catch (Exception e){
-            System.out.println("❌ Failed to export MIDI: " + e.getMessage());
-
+        if (!success){
+            System.out.println("There was a problem exporting the MIDI file.");
         }
 
         scanner.close();
