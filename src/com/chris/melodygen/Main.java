@@ -6,6 +6,8 @@ import org.jfugue.pattern.Pattern;
 import java.io.File;
 import java.util.Scanner;
 import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Main{
     public static void main(String[] args){
@@ -43,8 +45,12 @@ public class Main{
         Player player = new Player();
         player.play(melody);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timestamp = sdf.format(new Date());
+        String filename = "assets/melody_ " + timestamp + ".mid";
+
         Pattern pattern = new Pattern("V0 I[PIANO] " + melody);
-        boolean success = MidiExporter.exportAsFormat1(pattern, "assets/generated.mid");
+        boolean success = MidiExporter.exportAsFormat1(pattern, filename);
 
         if (!success){
             System.out.println("There was a problem exporting the MIDI file.");
