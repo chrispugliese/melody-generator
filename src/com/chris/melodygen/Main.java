@@ -8,7 +8,7 @@ import java.io.File;
 public class Main{
     public static void main(String[] args){
         MelodyGenerator generator = new MelodyGenerator();
-        String melody = generator.generateMelody("C", 8);
+        String melody = generator.generateMelody("D", "Dorian", 8);
         
         System.out.println("Generated melody: [" + melody + "]");
 

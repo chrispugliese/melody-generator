@@ -1,31 +1,28 @@
 package com.chris.melodygen;
+import com.chris.melodygen.ScaleGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-
 public class MelodyGenerator {
-    private static final Map<String, String[]> MAJOR_SCALES = new HashMap<>();
+    private Random random = new Random();
 
-    static{
-        MAJOR_SCALES.put("C", new String[]{"C", "D", "E", "F", "G", "A", "B"});
-        MAJOR_SCALES.put("G", new String[]{"G", "A", "B", "C", "D", "E", "F#"});
-        MAJOR_SCALES.put("D", new String[]{"D", "E", "F#", "G", "A", "B", "C#"});
+    public String generateMelody(String rootNote, String scaleType, int length){
+        String[] scale;
+        try{
+            scale = ScaleGenerator.generateScale(rootNote, scaleType);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+            return "";
+        }
+
+        StringBuilder melody = new StringBuilder();
+        for (int i = 0; i < length; i++){
+            String note = scale[random.nextInt(scale.length)];
+            melody.append(note).append("4q ");
+        }
+
+        return melody.toString().trim();
     }
-
-        private Random random = new Random();
-
-        public String generateMelody(String key, int length){
-            String[] scale = MAJOR_SCALES.getOrDefault(key, MAJOR_SCALES.get("C"));
-            StringBuilder melody = new StringBuilder();
-
-            for (int i = 0; i < length; i++){
-                String note = scale[random.nextInt(scale.length)];
-                melody.append(note).append("q ");
-            }
-
-            return melody.toString().trim();
-    }
-    
 }
