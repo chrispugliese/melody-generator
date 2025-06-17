@@ -11,7 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import org.jfugue.player.Player;
+import org.jfugue.pattern.Pattern;
+
+import java.time.LocalDateTime;
 
 public class MelodyMakerApp extends Application {
     @Override
@@ -48,8 +52,6 @@ public class MelodyMakerApp extends Application {
         // Buttons
         Button generateButton = new Button("Generate Melody");
         Button playButton = new Button("▶️ Play");
-        Button randomizeButton = new Button("🎲 Randomize");
-        Button replayButton = new Button("🔁 Replay");
         Button downloadButton = new Button("💾 Download");
 
         playButton.setOnAction(e -> {
@@ -77,11 +79,36 @@ public class MelodyMakerApp extends Application {
                 generator.setOctaveRange(minOctave, maxOctave); // make sure this exists!
                 melodyText[0] = generator.generateMelody(root, scale, length);
 
-                outputLabel.setText("🎶 Melody: " + melodyText[0]);
+                outputLabel.setText("Melody: " + melodyText[0]);
             } catch (Exception ex) {
-                outputLabel.setText("❌ Error: " + ex.getMessage());
+                outputLabel.setText("Error: " + ex.getMessage());
             }
         });
+
+        downloadButton.setOnAction(e -> {
+            if (melodyText[0].isEmpty()) {
+                outputLabel.setText("⚠️ No melody to download!");
+                return;
+            }
+
+            String root = rootNoteBox.getValue();
+            String scale = scaleTypeBox.getValue();
+            String timestamp = java.time.LocalDateTime.now().toString().replaceAll("[:.]", "-");
+            String filename = "melody_" + root + "_" + scale + "_" + timestamp + ".mid";
+            String filePath = System.getProperty("user.home") + "/Downloads/" + filename;
+
+            Pattern pattern = new Pattern("V0 I[Piano] " + melodyText[0]);
+            boolean success = MidiExporter.exportAsFormat1(pattern, filePath);
+
+
+            if (success) {
+                outputLabel.setText("Saved to Downloads as " + filename);
+            } else {
+                outputLabel.setText("Could not export MIDI file");
+            }
+        });
+
+
 
         // Layout
         VBox layout = new VBox(10,
@@ -89,8 +116,7 @@ public class MelodyMakerApp extends Application {
             new Label("Scale Type:"), scaleTypeBox,
             new Label("Melody Length:"), noteCountField,
             new Label("Octave Range:"), new HBox(5, new Label("Min:"), minOctaveBox, new Label("Max:"), maxOctaveBox),
-            generateButton, playButton, randomizeButton, replayButton, downloadButton,
-            outputLabel
+            generateButton, playButton, downloadButton, outputLabel
         );
         layout.setPadding(new Insets(20));
 
