@@ -11,10 +11,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+
 
 import org.jfugue.player.Player;
 import org.jfugue.pattern.Pattern;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 public class MelodyMakerApp extends Application {
@@ -33,7 +37,7 @@ public class MelodyMakerApp extends Application {
         // Scale Type
         ComboBox<String> scaleTypeBox = new ComboBox<>();
         scaleTypeBox.getItems().addAll(ScaleGenerator.getAvailableScaleTypes());
-        scaleTypeBox.setValue("Major");
+        scaleTypeBox.setValue("Dorian");
 
         // Melody Length
         TextField noteCountField = new TextField("8");
@@ -91,22 +95,31 @@ public class MelodyMakerApp extends Application {
                 return;
             }
 
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Melody As...");
+            fileChooser.getExtensionFilters().add(new ExtensionFilter("MIDI files (*.mid)", "*.mid"));
+
             String root = rootNoteBox.getValue();
             String scale = scaleTypeBox.getValue();
             String timestamp = java.time.LocalDateTime.now().toString().replaceAll("[:.]", "-");
-            String filename = "melody_" + root + "_" + scale + "_" + timestamp + ".mid";
-            String filePath = System.getProperty("user.home") + "/Downloads/" + filename;
+            fileChooser.setInitialFileName("melody_" + root + "_" + scale + "_" + timestamp + ".mid");
 
-            Pattern pattern = new Pattern("V0 I[Piano] " + melodyText[0]);
-            boolean success = MidiExporter.exportAsFormat1(pattern, filePath);
+            File file = fileChooser.showSaveDialog(primaryStage);
 
+            if (file != null) {
+                Pattern pattern = new Pattern("V0 I[Piano] " + melodyText[0]);
+                boolean success = MidiExporter.exportAsFormat1(pattern, file.getAbsolutePath());
 
-            if (success) {
-                outputLabel.setText("Saved to Downloads as " + filename);
+                if (success) {
+                    outputLabel.setText("Saved to: " + file.getAbsolutePath());
+                } else {
+                    outputLabel.setText("Could not export MIDI file");
+                }
             } else {
-                outputLabel.setText("Could not export MIDI file");
+                outputLabel.setText("Save canceled.");
             }
         });
+
 
 
 
