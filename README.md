@@ -6,60 +6,73 @@ The main idea came from not having an idea at all. Instead of looking for extern
 
 ---
 
+## ⚡ Try It Now
+
+🎉 Download and run MelodyMaker on your computer without building anything:
+
+👉 [Download MelodyMaker via JDeploy](https://www.jdeploy.com/~melody-generator-prj)
+
+Available for macOS, Windows, and Linux.
+
+---
+
 ## ✨ Features
 
-- ✅ Random melody generation based on musical key (e.g., C Major)
-- ✅ JFugue-powered note playback
-- ✅ MIDI file export to `assets/generated.mid`
-- ✅ Drag-and-drop compatible with DAWs like Ableton
-- ✅ Modular Java codebase, easy to expand
+- 🎼 Random melody generation based on musical key (e.g., C Major)
+- 🎹 Audio playback powered by JFugue
+- 💾 MIDI export
+- 🖥️ GUI built with JavaFX
+- 🎛️ Drag-and-drop compatibility with major DAWs
+- 🧩 Modular, extensible Java codebase
 
 ---
 
 ## 🚀 Getting Started
 
 ### 🧰 Requirements
-- Java 8+
-- JFugue 5.0.9 ([Download JAR](https://github.com/davidkoelle/jfugue/releases))
-- Terminal or IDE (IntelliJ, VS Code, etc.)
+- Java 17+ (Java 23 recommended)
+- JavaFX SDK (download [here](https://gluonhq.com/products/javafx/))
+- [JFugue 5.0.9](https://github.com/davidkoelle/jfugue/releases)
+- IDE or terminal
+
+> 📦 Note: You **do not need to build or publish this app via `jdeploy`** — that’s handled privately.
 
 ### 📦 Folder Structure
 
 ```plaintext
-random-melody-generator/
+melody-generator-prj/
 ├── src/com/chris/melodygen/
-│ ├── Main.java
-│ └── MelodyGenerator.java
-├── lib/jfugue-5.0.9.jar
-├── assets/generated.mid
-└── README.md
+│   └── *.java
+├── lib/
+│   ├── jfugue-5.0.9.jar
+│   └── javafx-sdk-24.0.1/
+├── assets/
+│   └── generated.mid
+├── out/                ← compiled class output
+├── jdeploy/            ← for internal packaging only
+├── package.json        ← do not use unless publishing
+├── README.md
 ```
 ### 🛠️ Compile & Run
 
 ```bash
-javac -cp lib/jfugue-5.0.9.jar -d out src/com/chris/melodygen/*.java
-java -cp "lib/jfugue-5.0.9.jar:out" com.chris.melodygen.Main
-- On Windows, use ; instead of : in the classpath.
+javac --module-path lib/javafx-sdk-24.0.1/lib --add-modules javafx.controls,javafx.fxml -cp lib/jfugue-5.0.9.jar -d out src/com/chris/melodygen/*.java
+java --module-path lib/javafx-sdk-24.0.1/lib --add-modules javafx.controls,javafx.fxml -cp "lib/jfugue-5.0.9.jar:out" com.chris.melodygen.MelodyMakerApp
 ```
+> 💡 On Windows, replace : with ; in the classpath.
 
-### 📝 Output Example
 
-```vbnet
-Generated melody: [Cq Dq Gq Eq Fq Bq Aq Cq]
-✅ MIDI exported to: /path/to/assets/generated.mid
-```
+### 🔮 Roadmap
 
-### 🔮 Planned Features
-
-- Support for all other keys & scales
+- ✅ Basic GUI functionality
+- ✅ Octave shifts
+- ✅ MIDI export
 - Rhythm pattern
-- Octave shifts
 - Note length variations
-- GUI?
 - DAW integration
 
 ### 📜 License
-MIT — free to use, modify, and share.
+MIT — free to use and share.
 
 ### 👋 Author
 @chrispugliese
