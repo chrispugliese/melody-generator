@@ -1,0 +1,28 @@
+{
+  "bin": {"melody-generator-prj": "jdeploy-bundle/jdeploy.js"},
+  "author": "",
+  "description": "",
+  "main": "index.js",
+  "preferGlobal": true,
+  "repository": "",
+  "version": "1.0.2",
+  "jdeploy": {
+    "jar": "out/MelodyMaker.jar",
+    "mainClass": "com.chris.melodygen.MelodyMakerApp",
+    "title": "MelodyMaker",
+    "javaVersion": "23",
+    "javafx": true,
+    "stripJavaFXFiles": false
+},
+  "dependencies": {
+    "command-exists-promise": "^2.0.2",
+    "node-fetch": "2.6.7",
+    "tar": "^4.4.8",
+    "yauzl": "^2.10.0",
+    "shelljs": "^0.8.4"
+  },
+  "license": "ISC",
+  "name": "melody-generator-prj",
+  "files": ["jdeploy-bundle"],
+  "scripts": {"test": "echo \"Error: no test specified\" && exit 1"}
+}

@@ -1,9 +1,10 @@
-# Ignore compiled class files
+lib/javafx-sdk-24.0.1/
+*.zip
+node_modules/
+jdeploy-bundle/
 out/
 *.class
-
-# Ignore JARs if you want to fetch externally
-lib/
-
-# macOS junk
 .DS_Store
+# Ignore jDeploy output
+jdeploy/
+jdeploy/publish/
