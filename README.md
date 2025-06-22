@@ -29,11 +29,7 @@ Available for macOS, Windows, and Linux.
 
 ## 🚀 Getting Started
 
-### 🧰 Requirements
-- Java 17+ (Java 23 recommended)
-- JavaFX SDK (download [here](https://gluonhq.com/products/javafx/))
-- [JFugue 5.0.9](https://github.com/davidkoelle/jfugue/releases)
-- IDE or terminal
+📄 [Setup Instructions](setup.md)
 
 > 📦 Note: You **do not need to build or publish this app via `jdeploy`** — that’s handled privately.
 
@@ -53,14 +49,6 @@ melody-generator-prj/
 ├── package.json        ← do not use unless publishing
 ├── README.md
 ```
-### 🛠️ Compile & Run
-
-```bash
-javac --module-path lib/javafx-sdk-24.0.1/lib --add-modules javafx.controls,javafx.fxml -cp lib/jfugue-5.0.9.jar -d out src/com/chris/melodygen/*.java
-java --module-path lib/javafx-sdk-24.0.1/lib --add-modules javafx.controls,javafx.fxml -cp "lib/jfugue-5.0.9.jar:out" com.chris.melodygen.MelodyMakerApp
-```
-> 💡 On Windows, replace : with ; in the classpath.
-
 
 ### 🔮 Roadmap
 
