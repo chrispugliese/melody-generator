@@ -222,7 +222,7 @@ public class MelodyMakerApp extends Application {
         layout.setPadding(new Insets(20));
 
         Scene scene = new Scene(layout, 400, 750);
-        primaryStage.setTitle("🎹 Melody Generator");
+        primaryStage.setTitle("🎹 MelodyMaker");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
