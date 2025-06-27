@@ -14,6 +14,9 @@ public class MelodyGenerator {
     private String noteLength = "q"; // Default to quarter notes
     private boolean randomizeNoteLengths = false;
 
+    // Store the raw melody (notes and octaves only, no durations)
+    private String[] rawMelody = null;
+
     // Note length mappings
     private static final String[] NOTE_LENGTHS = {"w", "h", "q", "i", "s"}; // whole, half, quarter, eighth, sixteenth
     private static final String[] NOTE_LENGTH_NAMES = {"Whole", "Half", "Quarter", "Eighth", "Sixteenth"};
@@ -27,14 +30,26 @@ public class MelodyGenerator {
             return "";
         }
 
-        StringBuilder melody = new StringBuilder();
+        // Generate raw melody (notes and octaves only)
+        rawMelody = new String[length];
         for (int i = 0; i < length; i++){
             String note = scale[random.nextInt(scale.length)];
-
             int octave = minOctave + random.nextInt(maxOctave - minOctave + 1);
-            
-            // Add note with octave
-            melody.append(note).append(octave);
+            rawMelody[i] = note + octave;
+        }
+
+        // Return the formatted melody with current timing settings
+        return formatMelodyWithTiming();
+    }
+
+    public String formatMelodyWithTiming() {
+        if (rawMelody == null || rawMelody.length == 0) {
+            return "";
+        }
+
+        StringBuilder melody = new StringBuilder();
+        for (String note : rawMelody) {
+            melody.append(note);
             
             // Add note length
             if (randomizeNoteLengths) {
@@ -48,6 +63,10 @@ public class MelodyGenerator {
         }
 
         return melody.toString().trim();
+    }
+
+    public boolean hasMelody() {
+        return rawMelody != null && rawMelody.length > 0;
     }
 
     public void setOctaveRange(int min, int max) {
