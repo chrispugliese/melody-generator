@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -43,6 +44,18 @@ public class MelodyMakerApp extends Application {
         TextField noteCountField = new TextField("8");
         noteCountField.setPromptText("Number of notes");
 
+        // BPM Control
+        TextField bpmField = new TextField("120");
+        bpmField.setPromptText("BPM (60-200)");
+
+        // Note Length Selection
+        ComboBox<String> noteLengthBox = new ComboBox<>();
+        noteLengthBox.getItems().addAll(MelodyGenerator.getNoteLengthNames());
+        noteLengthBox.setValue("Quarter");
+
+        // Randomize Note Lengths Checkbox
+        CheckBox randomizeLengthsBox = new CheckBox("Randomize note lengths");
+
         // Octave Range
         ComboBox<Integer> minOctaveBox = new ComboBox<>();
         ComboBox<Integer> maxOctaveBox = new ComboBox<>();
@@ -78,12 +91,37 @@ public class MelodyMakerApp extends Application {
                 int length = Integer.parseInt(noteCountField.getText());
                 int minOctave = minOctaveBox.getValue();
                 int maxOctave = maxOctaveBox.getValue();
+                int bpm = Integer.parseInt(bpmField.getText());
+                
+                // Validate BPM
+                if (bpm < 60 || bpm > 200) {
+                    outputLabel.setText("Error: BPM must be between 60 and 200");
+                    return;
+                }
+
+                // Get note length from selection
+                String noteLengthName = noteLengthBox.getValue();
+                String noteLength = "";
+                String[] noteLengthNames = MelodyGenerator.getNoteLengthNames();
+                String[] noteLengths = MelodyGenerator.getNoteLengths();
+                for (int i = 0; i < noteLengthNames.length; i++) {
+                    if (noteLengthNames[i].equals(noteLengthName)) {
+                        noteLength = noteLengths[i];
+                        break;
+                    }
+                }
 
                 MelodyGenerator generator = new MelodyGenerator();
-                generator.setOctaveRange(minOctave, maxOctave); // make sure this exists!
+                generator.setOctaveRange(minOctave, maxOctave);
+                generator.setBPM(bpm);
+                generator.setNoteLength(noteLength);
+                generator.setRandomizeNoteLengths(randomizeLengthsBox.isSelected());
+                
                 melodyText[0] = generator.generateMelody(root, scale, length);
 
                 outputLabel.setText("Melody: " + melodyText[0]);
+            } catch (NumberFormatException ex) {
+                outputLabel.setText("Error: Please enter valid numbers for BPM and melody length");
             } catch (Exception ex) {
                 outputLabel.setText("Error: " + ex.getMessage());
             }
@@ -107,13 +145,18 @@ public class MelodyMakerApp extends Application {
             File file = fileChooser.showSaveDialog(primaryStage);
 
             if (file != null) {
-                Pattern pattern = new Pattern("V0 I[Piano] " + melodyText[0]);
-                boolean success = MidiExporter.exportAsFormat1(pattern, file.getAbsolutePath());
+                try {
+                    int bpm = Integer.parseInt(bpmField.getText());
+                    Pattern pattern = new Pattern("V0 I[Piano] " + melodyText[0]);
+                    boolean success = MidiExporter.exportAsFormat1(pattern, file.getAbsolutePath(), bpm);
 
-                if (success) {
-                    outputLabel.setText("Saved to: " + file.getAbsolutePath());
-                } else {
-                    outputLabel.setText("Could not export MIDI file");
+                    if (success) {
+                        outputLabel.setText("Saved to: " + file.getAbsolutePath());
+                    } else {
+                        outputLabel.setText("Could not export MIDI file");
+                    }
+                } catch (NumberFormatException ex) {
+                    outputLabel.setText("Error: Invalid BPM value");
                 }
             } else {
                 outputLabel.setText("Save canceled.");
@@ -128,12 +171,15 @@ public class MelodyMakerApp extends Application {
             new Label("Root Note:"), rootNoteBox,
             new Label("Scale Type:"), scaleTypeBox,
             new Label("Melody Length:"), noteCountField,
+            new Label("BPM:"), bpmField,
+            new Label("Note Length:"), noteLengthBox,
+            randomizeLengthsBox,
             new Label("Octave Range:"), new HBox(5, new Label("Min:"), minOctaveBox, new Label("Max:"), maxOctaveBox),
             generateButton, playButton, downloadButton, outputLabel
         );
         layout.setPadding(new Insets(20));
 
-        Scene scene = new Scene(layout, 400, 600);
+        Scene scene = new Scene(layout, 400, 700);
         primaryStage.setTitle("🎹 Melody Generator");
         primaryStage.setScene(scene);
         primaryStage.show();
