@@ -1,4 +1,4 @@
-# 🎵 Random Melody Generator
+# 🎵 MelodyMaker
 
 A simple Java application that generates a random melody in a chosen key, plays it, and exports it as a MIDI file you can use in DAWs like Ableton, Logic, or FL Studio.
 
