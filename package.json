@@ -7,14 +7,15 @@
   "main": "index.js",
   "preferGlobal": true,
   "repository": "",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "jdeploy": {
     "jar": "out/MelodyMaker.jar",
     "mainClass": "com.chris.melodygen.MelodyMakerApp",
     "title": "MelodyMaker",
     "javaVersion": "23",
     "javafx": true,
-    "stripJavaFXFiles": false
+    "stripJavaFXFiles": false,
+    "icon": "jdeploy-bundle/icon.png"
   },
   "dependencies": {
     "command-exists-promise": "^2.0.2",
