@@ -7,7 +7,7 @@
   "main": "index.js",
   "preferGlobal": true,
   "repository": "",
-  "version": "1.1.7",
+  "version": "1.1.9",
   "jdeploy": {
     "jar": "out/MelodyMaker.jar",
     "mainClass": "com.chris.melodygen.MelodyMakerApp",
@@ -15,7 +15,7 @@
     "javaVersion": "23",
     "javafx": true,
     "stripJavaFXFiles": false,
-    "icon": "resources/icon.png"
+    "icon": "icon.png"
   },
   "dependencies": {
     "command-exists-promise": "^2.0.2",
@@ -28,7 +28,8 @@
   "name": "melody-generator-prj",
   "files": [
     "jdeploy-bundle",
-    "resources"
+    "resources",
+    "icon.png"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
