@@ -1,10 +1,24 @@
-lib/javafx-sdk-24.0.1/
-*.zip
-node_modules/
-jdeploy-bundle/
+# Build artifacts
+target/
 out/
 *.class
+
+# Maven
+dependency-reduced-pom.xml
+release.properties
+
+# IntelliJ / VSCode
+.idea/
+*.iml
+.vscode/
+
+# OS
 .DS_Store
-# Ignore jDeploy output
-jdeploy/
-jdeploy/publish/
+Thumbs.db
+
+# Node.js (v1-legacy)
+node_modules/
+package-lock.json
+
+# JavaFX JARs (if not using Maven)
+lib/
