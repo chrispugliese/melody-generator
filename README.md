@@ -69,7 +69,7 @@ melody-generator-prj/
 - ✅ Basic GUI functionality
 - ✅ Octave shifts
 - ✅ MIDI export
-- Rhythm pattern
+- ✅ Rhythm pattern
 - Note length variations
 - DAW integration
 
