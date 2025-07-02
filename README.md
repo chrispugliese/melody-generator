@@ -2,7 +2,7 @@
 
 A simple Java application that generates a random melody in a chosen key, plays it, and exports it as a MIDI file you can use in DAWs like Ableton, Logic, or FL Studio.
 
-The main idea came from not having an idea at all. Instead of looking for external tools or plug-ins, I figured I'd build one myself. The more I start to develop and get a sense for what direction I want to go in, the more it will be useable in a production workflow. Plus, I want to learn Java lol.
+The idea came from not having an idea at all. Instead of looking for external tools or plug-ins, I figured I'd build one myself. As development continues, the app will evolve into something more usable in a real production workflow. Plus, I want to learn Java lol.
 
 ---
 
@@ -27,26 +27,40 @@ Available for macOS, Windows, and Linux.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Project Versions
 
-📄 [Setup Instructions](setup.md)
+### ✅ `v2-maven-version/` — Current Version (Clean Build)
+> Rebuilt using **Maven** for dependency management and maintainability.
 
-> 📦 Note: You **do not need to build or publish this app via `jdeploy`** — that’s handled privately.
+📦 Automatically handles:
+- JavaFX
+- JFugue
+- Java 17+ compatibility
+
+### 📦 Build & Run
+
+```bash
+cd v2-maven-version
+mvn clean install
+mvn exec:java
+```
+
+### 📁 `v1-legacy-version/` — Original Version (Deprecated)
+> First implementation using JDeploy and custom scripts.
+> Kept for archival purposes — use the Maven version (v2-maven-version/) for further development.
 
 ### 📦 Folder Structure
 
 ```plaintext
 melody-generator-prj/
-├── src/com/chris/melodygen/
-│   └── *.java
-├── lib/
-│   ├── jfugue-5.0.9.jar
-│   └── javafx-sdk-24.0.1/
-├── assets/
-│   └── generated.mid
-├── out/                ← compiled class output
-├── jdeploy/            ← for internal packaging only
-├── package.json        ← do not use unless publishing
+├── v1-legacy-version/      ← original JDeploy-based project
+│   ├── src/
+│   ├── lib/
+│   ├── run.sh, assets/
+│   └── jdeploy/
+├── v2-maven-version/       ← clean Maven-based rebuild
+│   ├── pom.xml
+│   └── src/main/java/
 ├── README.md
 ```
 
